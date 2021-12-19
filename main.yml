@@ -1,0 +1,63 @@
+- name: Create Azure VM
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Create resource group
+    azure_rm_resourcegroup:
+      name: kiragroup
+      location: eastus
+  - name: Create virtual network
+    azure_rm_virtualnetwork:
+      resource_group: kiragroup
+      name: kiraVnet
+      address_prefixes: "10.0.0.0/16"
+  - name: Add subnet
+    azure_rm_subnet:
+      resource_group: kiragroup
+      name: kiraSubnet
+      address_prefix: "10.0.1.0/24"
+      virtual_network: kiraVnet
+  - name: Create public IP address
+    azure_rm_publicipaddress:
+      resource_group: kiragroup
+      allocation_method: Static
+      name: kiraPublicIP
+    register: output_ip_address
+  - name: Public IP of VM
+    debug:
+      msg: "The public IP is {{ output_ip_address.state.ip_address }}."
+  - name: Create Network Security Group that allows SSH
+    azure_rm_securitygroup:
+      resource_group: kiragroup
+      name: kiraNetworkSecurityGroup
+      rules:
+        - name: SSH
+          protocol: Tcp
+          destination_port_range: 22
+          access: Allow
+          priority: 1001
+          direction: Inbound
+  - name: Create virtual network interface card
+    azure_rm_networkinterface:
+      resource_group: kiragroup
+      name: kiraNIC
+      virtual_network: kiraVnet
+      subnet: kiraSubnet
+      public_ip_name: kiraPublicIP
+      security_group: kiraNetworkSecurityGroup
+  - name: Create VM
+    azure_rm_virtualmachine:
+      resource_group: kiragroup
+      name: kiraVM
+      vm_size: Standard_DS1_v2
+      admin_username: kirauser
+      ssh_password_enabled: false
+      ssh_public_keys:
+        - path: /home/matteo/.ssh/authorized_keys
+          key_data: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC0hUJBqgZ4WEkMIsJs4DfaWR4DTAEw4/0UwIlFfFA0vnRHfXyE5xm+6SLuD3ohfAili7ukEEGkc8s+A5ey4wa7oWX+hPZVWksvdRz8ovT8HAqmoBR0t02dXjIEoftcoWUkFlYNJNPn3mxdgAlhTfB2MNd8q1iC+nxIVXyHUwHBfaB5/MDkLCHBFlqWAYgG+uO1aJqfShroaSm77/ZB0IXg6+wGvFrbOc6JZvT+svKGm2ecX4uMve7e6HJUDM/Kv4ZLsuqhKRppSXqs+61H18MKqr9zvkeVpwgZ77DSBvR1yvGhmuLymyrHF04C+WBU8Ayem9QJGC5MWQ5XecNzNZOVsjWJmXhunkls2zDoQlbHI0Ncs1eAm6dk7O1TtVpLC+O8S/lgXQ3gdm54BRRbs28njAhLs5XInHrWIyeq3YuCniWU7J0izuYEX9y/+q8iKyjIDz/JBQitugZxryex7NjZ68UHTqkr53RHSo+kYMl1ytYW2apT25GpLB/TSWy77ot+Ned5Q0RB0nScQhk3XN3z8N3ROwle4iYFbsXpV2UtBV8ap/y85kdDs7KwIhwlqi8ufdSJfNwLsEzM8gyqF/zu4skMEuOwkblDy3dvBl945c2Fglz1IsVzedh6r0PQxv7HFcnpTTSTqYHHpwzQGnyb2+omI5CJxURMwRQJK21o3Q== matteo@cc-95fe1595-7cd55c5fd7-w4jt7"
+      network_interfaces: kiraNIC
+      image:
+        offer: CentOS
+        publisher: OpenLogic
+        sku: '7.5'
+        version: latest
