@@ -1,0 +1,7 @@
+- name: Creating resource group
+  azure_rm_resourcegroup:
+    name: "{{ name }}"
+    location: "{{ location }}"
+  register: rg 
+- debug:
+    var: rg
