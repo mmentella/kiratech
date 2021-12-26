@@ -1,6 +1,7 @@
 # Kira Challenge
 # 1. Provisioning di due VM CentOS. Le VM possono essere locali oppure su un
 #    Cloud provider a scelta.
+# 2. Configurare le VM. Assicurarsi che la partizione utilizzata da Docker abbia almeno 40 GB di spazio.
 
 - name: Provisioning di due VM CentOS
   hosts: localhost

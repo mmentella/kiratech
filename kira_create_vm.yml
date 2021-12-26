@@ -14,3 +14,6 @@
       publisher: OpenLogic
       sku: '7.5'
       version: latest
+    data_disks:
+      - lun: 0
+        disk_size_gb: 64
