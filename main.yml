@@ -3,7 +3,7 @@
 #    Cloud provider a scelta.
 # 2. Configurare le VM. Assicurarsi che la partizione utilizzata da Docker abbia almeno 40 GB di spazio.
 
-- name: Provisioning di due VM CentOS
+- name: Kira Challenge
   hosts: localhost
   connection: local
   tasks:

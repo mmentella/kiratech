@@ -1,0 +1,27 @@
+- name: Creazione di una partizione per Docker
+  hosts: kiraVM1, kiraVM2
+  become: yes
+
+  tasks:
+    - name: Partizionamento sdc
+      parted:
+        device: /dev/sdc
+        number: 1
+        state: present
+        label: msdos
+        flags: [lvm]
+    - name: Creazione filesystem
+      filesystem:
+        fstype: xfs
+        dev: /dev/sdc1
+        state: present
+    - name: Creates directory
+      file:
+        path: /docker
+        state: directory
+    - name: Mount 
+      mount:
+        path: /docker
+        src: /dev/sdc1
+        fstype: xfs
+        state: present
