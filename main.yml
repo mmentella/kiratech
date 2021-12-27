@@ -6,5 +6,9 @@
 - name: Kira Challenge
   hosts: localhost
   connection: local
-  tasks:
-  - include: kira_vm.yml 
+
+- name: Provisioning di due VM CentOS
+  import_playbook: kira_vm.yml
+
+- name: Configurare le VM
+  import_playbook: kira_create_docker_partition.yml

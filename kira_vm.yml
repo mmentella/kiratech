@@ -1,54 +1,58 @@
+- name: Creazione di due VM CentOS
+  hosts: localhost
+  connection: local
 
-- include: kira_create_rg.yml
-  vars:
-    name: kiragroup
-    location: eastus
-- include: kira_create_vn.yml
-  vars:
-    resourceGroup: kiragroup
-    name: kiraVnet
-    addressPrefixes: "10.0.0.0/16"
-- include: kira_add_subnet.yml
-  vars:
-    resourceGroup: kiragroup
-    name: kiraSubnet
-    addressPrefix: "10.0.1.0/24"
-    virtualNetwork: kiraVnet
-- include: kira_create_ip.yml
-  vars:
-    resourceGroup: kiragroup
-    name: kiraPublicIP1
-- include: kira_create_ip.yml
-  vars:
-    resourceGroup: kiragroup
-    name: kiraPublicIP2
-- include: kira_create_nsg.yml
-  vars:
-    resourceGroup: kiragroup
-    name: kiraNetworkSecurityGroup
-- include: kira_create_nic.yml
-  vars:
-    resourceGroup: kiragroup
-    name: kiraNIC1
-    virtualNetwork: kiraVnet
-    subnet: kiraSubnet
-    publicIPName: kiraPublicIP1
-    securityGroup: kiraNetworkSecurityGroup
-- include: kira_create_nic.yml
-  vars:
-    resourceGroup: kiragroup
-    name: kiraNIC2
-    virtualNetwork: kiraVnet
-    subnet: kiraSubnet
-    publicIPName: kiraPublicIP2
-    securityGroup: kiraNetworkSecurityGroup
-- include: kira_create_vm.yml
-  vars:
-    resourceGroup: kiragroup
-    name: kiraVM1
-    networkInterfaces: kiraNIC1
-- include: kira_create_vm.yml
-  vars:
-    resourceGroup: kiragroup
-    name: kiraVM2
-    networkInterfaces: kiraNIC2
+  tasks:
+  - include: kira_create_rg.yml
+    vars:
+      name: kiragroup
+      location: eastus
+  - include: kira_create_vn.yml
+    vars:
+      resourceGroup: kiragroup
+      name: kiraVnet
+      addressPrefixes: "10.0.0.0/16"
+  - include: kira_add_subnet.yml
+    vars:
+      resourceGroup: kiragroup
+      name: kiraSubnet
+      addressPrefix: "10.0.1.0/24"
+      virtualNetwork: kiraVnet
+  - include: kira_create_ip.yml
+    vars:
+      resourceGroup: kiragroup
+      name: kiraPublicIP1
+  - include: kira_create_ip.yml
+    vars:
+      resourceGroup: kiragroup
+      name: kiraPublicIP2
+  - include: kira_create_nsg.yml
+    vars:
+      resourceGroup: kiragroup
+      name: kiraNetworkSecurityGroup
+  - include: kira_create_nic.yml
+    vars:
+      resourceGroup: kiragroup
+      name: kiraNIC1
+      virtualNetwork: kiraVnet
+      subnet: kiraSubnet
+      publicIPName: kiraPublicIP1
+      securityGroup: kiraNetworkSecurityGroup
+  - include: kira_create_nic.yml
+    vars:
+      resourceGroup: kiragroup
+      name: kiraNIC2
+      virtualNetwork: kiraVnet
+      subnet: kiraSubnet
+      publicIPName: kiraPublicIP2
+      securityGroup: kiraNetworkSecurityGroup
+  - include: kira_create_vm.yml
+    vars:
+      resourceGroup: kiragroup
+      name: kiraVM1
+      networkInterfaces: kiraNIC1
+  - include: kira_create_vm.yml
+    vars:
+      resourceGroup: kiragroup
+      name: kiraVM2
+      networkInterfaces: kiraNIC2
