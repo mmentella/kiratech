@@ -1,5 +1,7 @@
 # see https://docs.docker.com/engine/install/centos/
 # see https://medium.com/@admin_12157/installing-docker-using-ansible-playbook-in-centos7-b47bb3e7874
+# 4.b Assicurarsi che il Docker Daemon sia configurato come un servizio che
+#     parta automaticamente all'avvio del sistema
 
 - name: Setup di Docker
   hosts: kiraVM1,kiraVM2
