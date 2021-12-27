@@ -2,6 +2,7 @@
 # 1. Provisioning di due VM CentOS. Le VM possono essere locali oppure su un
 #    Cloud provider a scelta.
 # 2. Configurare le VM. Assicurarsi che la partizione utilizzata da Docker abbia almeno 40 GB di spazio.
+# 3. Setup di Docker
 
 - name: Kira Challenge
   hosts: localhost
@@ -12,3 +13,6 @@
 
 - name: Configurare le VM
   import_playbook: kira_create_docker_partition.yml
+
+- name: Setup di Docker 
+  import_playbook: kira_docker_setup.yml
