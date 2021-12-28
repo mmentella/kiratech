@@ -39,8 +39,12 @@
           - docker-ce-cli
           - containerd.io
         state: present
-    - name: " Starting and Enabling Docker service"
+    - name: Runtime directory and storage driver
+      copy:
+        src: daemon.json
+        dest: /etc/docker
+    - name: "Starting and Enabling Docker service"
       service:
         name: docker
-        state: started
+        state: restarted
         enabled: yes

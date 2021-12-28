@@ -3,6 +3,7 @@
 #    Cloud provider a scelta.
 # 2. Configurare le VM. Assicurarsi che la partizione utilizzata da Docker abbia almeno 40 GB di spazio.
 # 3. Setup di Docker
+# 4. Esporre le API REST del Docker Daemon in modo sicuro
 
 - name: Kira Challenge
   hosts: localhost
@@ -12,7 +13,7 @@
   import_playbook: kira_vm.yml
 
 - name: Configurare le VM
-  import_playbook: kira_create_docker_partition.yml
+  import_playbook: kira_docker_partition.yml
 
 - name: Setup di Docker 
   import_playbook: kira_docker_setup.yml

@@ -1,7 +1,0 @@
-- name: Test the inventory script
-  hosts: kiraVM1, kiraVM2
-  connection: local
-  gather_facts: no
-  tasks:
-    - debug:
-        msg: "{{ inventory_hostname }} has powerstate {{ powerstate }}"
