@@ -1,5 +1,5 @@
 - name: Creazione di una partizione per Docker
-  hosts: kiraVM1, kiraVM2
+  hosts: kiraVM1,kiraVM2
   become: yes
 
   tasks:

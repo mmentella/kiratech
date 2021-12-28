@@ -42,7 +42,7 @@
     - name: Runtime directory and storage driver
       copy:
         src: daemon.json
-        dest: /etc/docker
+        dest: /etc/docker/daemon.json
     - name: "Starting and Enabling Docker service"
       service:
         name: docker
